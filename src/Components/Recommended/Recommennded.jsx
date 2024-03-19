@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./Recommended.css"
-import { API_KEY, host, valueConverter } from '../../data'
+import { host, valueConverter } from '../../data'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';

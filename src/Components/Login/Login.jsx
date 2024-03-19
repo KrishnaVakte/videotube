@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import "./Login.css"
 import LoginLogo from "../../assets/login.gif"
-import { host } from '../../data';
-import axios from "axios"
 import { useNavigate } from 'react-router-dom'
-axios.defaults.withCredentials = true
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../store/slices/authSlice';
 
 
 
-const Login = ({user, setUser}) => {
+const Login = ({setUser}) => {
     const navigate = useNavigate()
     const [credentials, setCredentials] = useState({})
+    const dispatch = useDispatch()
+    const loading = useSelector(state => state.auth?.loading)
 
     const onChangeHandler = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -18,26 +19,12 @@ const Login = ({user, setUser}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post(`${host}/user/login`, credentials)
-            
-            if (response.data.success) {
-                setUser(response.data.data.user);
-                navigate('/')
-            }
-            else {
-                alert("Invalid Credentials.")
-            }
-        } catch (error) {
-            console.log("unable to login...")
-        }
+        const response = await dispatch(loginUser(credentials));
     }
-
-    useEffect(() => {
-        if (user.username) {
-           navigate('/')
-       }
-   },[user])
+    
+    if (loading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <div className='login-page'>

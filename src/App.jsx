@@ -6,6 +6,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom'
 import Login from './Components/Login/Login'
 import axios from 'axios'
 import { host } from './data'
+import AuthLayout from './Components/AuthLayout'
 
 const App = () => {
   const [user, setUser] = useState({})
@@ -17,29 +18,23 @@ const App = () => {
 
   
 
-  useEffect(() => {
-    try {
-        axios.get(`${host}/user/current-user`)
-            .then(res => {
-                if (res.data.success) {
-                    setUser(res.data.data)
-                    // navigate('/')
-                }
-            }).catch(err => {
-            console.log(err.message)
-        })
-    } catch (error) {
-        console.log("No access token")
-    }
-},[])
 
   return (
     <div>
       <Navbar setSidebar={setSidebar} user={user} setQuery={setQuery}/>
       <Routes>
         <Route path='/' element={<Home user={user} sidebar={sidebar} query={query} setQuery={setQuery} sortBy={sortBy} sortType={sortType}/>} />
-        <Route path='/video/:videoId' element={<Video query={query}/>} />
-        <Route path='/login' element={<Login user={user} setUser={setUser} />} />
+        <Route path='/video/:videoId' element={
+          <AuthLayout authentication>
+
+            <Video query={query} />
+          </AuthLayout>
+        } />
+        <Route path='/login' element={
+          <AuthLayout authentication={false}>
+            <Login user={user} setUser={setUser} />
+          </AuthLayout>
+        } />
       </Routes>
     </div>
   )

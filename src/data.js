@@ -1,4 +1,3 @@
-export const API_KEY = 'AIzaSyA8ftE3JQD19YuViNSarHfHYit0_sh1uWU'
 export const host = `http://localhost:8000/api/v1`
 
 export const valueConverter = (value) => {
@@ -12,3 +11,13 @@ export const valueConverter = (value) => {
         return value
     }
 }
+
+
+import axios from "axios";
+
+const axiosInstance = axios.create();
+
+axiosInstance.defaults.baseURL = host;
+axiosInstance.defaults.withCredentials = true;
+
+export {axiosInstance};

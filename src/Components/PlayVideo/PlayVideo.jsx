@@ -4,9 +4,7 @@ import like from "../../assets/like.png"
 import dislike from "../../assets/dislike.png"
 import save from "../../assets/save.png"
 import share from "../../assets/share.png"
-import jack from "../../assets/jack.png"
-import user_profile from "../../assets/user_profile.jpg"
-import { API_KEY, host, valueConverter } from '../../data'
+import { host, valueConverter } from '../../data'
 import moment from 'moment'
 import axios from 'axios'
 import InfiniteScroll from 'react-infinite-scroll-component'

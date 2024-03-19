@@ -1,0 +1,8 @@
+.loader {
+    height: 100vh;
+    font-size: larger;
+    font-weight: bolder;
+    display:flex ;
+    align-items: center;
+    justify-content: center;
+}
