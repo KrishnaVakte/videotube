@@ -36,6 +36,9 @@ export const createAccount = createAsyncThunk("register", async (data) => {
 export const userLogin = createAsyncThunk("login", async (data) => {
     try {
         const response = await axiosInstance.post("/user/login", data);
+        console.log(response.data)
+        localStorage.setItem('accessToken', response.data.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.data.refreshToken);
         return response.data.data.user;
     } catch (error) {
         toast.error("Invalid Credintials.. Try Agian.");
@@ -87,7 +90,7 @@ export const changePassword = createAsyncThunk(
         try {
             const response = await axiosInstance.post(
                 "/user/change-password",
-                data
+                {...data, refreshToken: localStorage.getItem('refreshToken')}
             );
             toast.success(response.data?.message);
             return response.data;
@@ -99,7 +102,7 @@ export const changePassword = createAsyncThunk(
 );
 
 export const getCurrentUser = createAsyncThunk("getCurrentUser", async () => {
-    const response = await axiosInstance.get("/user/current-user");
+    const response = await axiosInstance.post("/user/current-user",{accessToken: localStorage.getItem('accessToken')});
     return response.data.data;
 });
 
