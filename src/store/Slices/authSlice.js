@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
+import Cookies from 'js-cookie'
 
 const initialState = {
     loading: false,
@@ -98,7 +99,7 @@ export const changePassword = createAsyncThunk(
 );
 
 export const getCurrentUser = createAsyncThunk("getCurrentUser", async () => {
-    const response = await axiosInstance.get("/user/current-user");
+    const response = await axiosInstance.get("/user/current-user", {headers: {Authorization: `Bearer ${Cookies.get('accessToken')}`}});
     return response.data.data;
 });
 
