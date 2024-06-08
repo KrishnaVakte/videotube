@@ -99,7 +99,7 @@ export const changePassword = createAsyncThunk(
 );
 
 export const getCurrentUser = createAsyncThunk("getCurrentUser", async () => {
-    const response = await axiosInstance.get("/user/current-user", {headers: {Authorization: `Bearer ${Cookies.get('accessToken')}`}});
+    const response = await axiosInstance.post("/user/current-user");
     return response.data.data;
 });
 
