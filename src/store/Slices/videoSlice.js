@@ -16,8 +16,8 @@ export const getAllVideos = createAsyncThunk(
     async ({ userId, sortBy, sortType, query, page, limit }) => {
         try {
             let url = '/video';
-        if (page) url += `/?page=${page}`
-        else url+='/?page=1'
+        if (page) url += `?page=${page}`
+        else url+='?page=1'
         if(userId) url+=`&userId=${userId}`
         if(query) url+=`&query=${query}`
         if(limit) url+=`&limit=${limit}`
