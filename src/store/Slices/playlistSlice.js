@@ -15,6 +15,7 @@ export const createAPlaylist = createAsyncThunk(
             const response = await axiosInstance.post("/playlist", {
                 name,
                 description,
+                accessToken: localStorage.getItem('accessToken')
             });
             if (response.data?.success) {
                 toast.success(response.data.message);
@@ -32,7 +33,7 @@ export const addVideoToPlaylist = createAsyncThunk(
     async (playlistId) => {
         try {
             const response = await axiosInstance.patch(
-                `/playlist/add/${playlistId}`
+                `/playlist/add/${playlistId}`,{accessToken: localStorage.getItem('accessToken')}
             );
             if (response.data?.success) {
                 toast.success(response.data.message);
@@ -50,7 +51,7 @@ export const removeVideoFromPlaylist = createAsyncThunk(
     async (playlistId) => {
         try {
             const response = await axiosInstance.patch(
-                `/playlist/remove/${playlistId}`
+                `/playlist/remove/${playlistId}`,{accessToken: localStorage.getItem('accessToken')}
             );
             if (response.data?.success) {
                 toast.success(response.data.message);
@@ -67,7 +68,7 @@ export const getPlaylistById = createAsyncThunk(
     "getPlaylistById",
     async (playlistId) => {
         try {
-            const response = await axiosInstance.get(`/playlist/${playlistId}`);
+            const response = await axiosInstance.post(`/playlist/${playlistId}`,{accessToken: localStorage.getItem('accessToken')});
             return response.data.data;
         } catch (error) {
             toast.error("Some Error Occured , try again..");
@@ -80,8 +81,8 @@ export const getPlaylistsByUser = createAsyncThunk(
     "getPlaylistsByUser",
     async (userId) => {
         try {
-            const response = await axiosInstance.get(
-                `/playlist/user/${userId}`
+            const response = await axiosInstance.post(
+                `/playlist/user/${userId}`,{accessToken: localStorage.getItem('accessToken')}
             );
             return response.data.data;
         } catch (error) {
@@ -97,7 +98,7 @@ export const upadtePlaylist = createAsyncThunk(
         try {
             const response = await axiosInstance.patch(
                 `/playlist/${playlistId}`,
-                { name, description }
+                { name, description,accessToken: localStorage.getItem('accessToken') }
             );
             if (response.data.success) {
                 toast.success(response.data.message);

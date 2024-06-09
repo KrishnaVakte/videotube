@@ -17,6 +17,7 @@ export const createAComment = createAsyncThunk(
             console.log({ videoId, content });
             const response = await axiosInstance.post(`/comment/v/${videoId}`, {
                 content,
+                accessToken: localStorage.getItem('accessToken')
             });
             return response.data.data;
         } catch (error) {
@@ -32,7 +33,7 @@ export const editAComment = createAsyncThunk(
         try {
             const response = await axiosInstance.patch(
                 `/comment/c/${commentId}`,
-                { content }
+                { content, accessToken: localStorage.getItem('accessToken') }
             );
             toast.success(response.data?.message);
             return response.data.data;
@@ -48,7 +49,7 @@ export const deleteAComment = createAsyncThunk(
     async (commentId) => {
         try {
             const response = await axiosInstance.delete(
-                `/comment/c/${commentId}`
+                `/comment/c/${commentId}`,{accessToken: localStorage.getItem('accessToken')}
             );
             toast.success(response.data.message);
             console.log(response.data.data);
@@ -65,7 +66,9 @@ export const getVideoComments = createAsyncThunk(
     async ({ videoId, page, limit }) => {
 
         try {
-            const response = await axiosInstance.get(`/comment/v/${videoId}?page=${page || 1}&limit=${limit || 10}`);
+            const response = await axiosInstance.patch(`/comment/v/${videoId}?page=${page || 1}&limit=${limit || 10}`, {
+                accessToken: localStorage.getItem('accessToken')
+            });
             return response.data.data;
         } catch (error) {
             toast.error("Some Error Occured , try again..");

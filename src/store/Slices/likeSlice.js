@@ -12,7 +12,7 @@ export const toggleVideoLike = createAsyncThunk(
     async (videoId) => {
         try {
             const response = await axiosInstance.post(
-                `/like/toggle/v/${videoId}`
+                `/like/toggle/v/${videoId}`,{accessToken: localStorage.getItem('accessToken')}
             );
             return response.data.data;
         } catch (error) {
@@ -27,7 +27,7 @@ export const toggleTweetLike = createAsyncThunk(
     async (tweetId) => {
         try {
             const response = await axiosInstance.post(
-                `/like/toggle/t/${tweetId}`
+                `/like/toggle/t/${tweetId}`,{accessToken: localStorage.getItem('accessToken')}
             );
             return response.data.data;
         } catch (error) {
@@ -42,7 +42,7 @@ export const toggleCommentLike = createAsyncThunk(
     async (commentId) => {
         try {
             const response = await axiosInstance.post(
-                `/like/toggle/c/${commentId}`
+                `/like/toggle/c/${commentId}`,{accessToken: localStorage.getItem('accessToken')}
             );
             return response.data.data;
         } catch (error) {
@@ -54,7 +54,7 @@ export const toggleCommentLike = createAsyncThunk(
 
 export const getLikedVideos = createAsyncThunk("getLikedVideos", async () => {
     try {
-        const response = await axiosInstance.get("like/videos");
+        const response = await axiosInstance.post("like/videos",{accessToken: localStorage.getItem('accessToken')});
         return response.data.data;
     } catch (error) {
         toast.error("Some Error Occured , try again..");

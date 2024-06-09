@@ -9,7 +9,7 @@ const initialState = {
 
 export const createTweet = createAsyncThunk("createTweet", async (content) => {
     try {
-        const response = await axiosInstance.post("/tweet", content);
+        const response = await axiosInstance.post("/tweet", { ...content, accessToken: localStorage.getItem('accessToken') });
         toast.success(response.data?.message);
         return response.data.data;
     } catch (error) {
@@ -24,7 +24,7 @@ export const editTweet = createAsyncThunk(
         try {
             const response = await axiosInstance.patch(
                 `/tweet/${tweetId}`,
-                {content}
+                {content,accessToken: localStorage.getItem('accessToken')}
             );
             toast.success(response.data.message);
             return response.data.data;
@@ -37,7 +37,7 @@ export const editTweet = createAsyncThunk(
 
 export const deleteTweet = createAsyncThunk("deleteTweet", async (tweetId) => {
     try {
-        const response = await axiosInstance.delete(`/tweet/${tweetId}`);
+        const response = await axiosInstance.delete(`/tweet/${tweetId}`,{accessToken: localStorage.getItem('accessToken')});
         toast.success(response.data.message);
         return response.data.data.tweetId;
     } catch (error) {
@@ -48,7 +48,7 @@ export const deleteTweet = createAsyncThunk("deleteTweet", async (tweetId) => {
 
 export const getUserTweets = createAsyncThunk( "getUserTweets", async (username) => {
         try {
-            const response = await axiosInstance.get(`/tweet/${username}`);
+            const response = await axiosInstance.post(`/tweet/${username}`,{accessToken: localStorage.getItem('accessToken')});
             return response.data.data;
         } catch (error) {
             toast.error("Some Error Occured , try again..");

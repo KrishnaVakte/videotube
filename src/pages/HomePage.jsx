@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllVideos, makeVideosNull } from "../store/Slices/videoSlice";
-import { VideoList, Container, InfiniteScroll } from "../components";
+import { VideoList, Container } from "../components";
 import HomeSkeleton from "../skeleton/HomeSkeleton";
 
 function HomePage() {

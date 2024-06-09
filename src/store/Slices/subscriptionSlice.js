@@ -13,8 +13,8 @@ export const toggleSubscription = createAsyncThunk(
     "toggleSubscription",
     async (channelId) => {
         try {
-            const response = await axiosInstance.post(
-                `subscription/c/${channelId}`
+            const response = await axiosInstance.patch(
+                `subscription/c/${channelId}`,{accessToken: localStorage.getItem('accessToken')}
             );
             return response.data.data.subscribed;
         } catch (error) {
@@ -29,7 +29,7 @@ export const getUserChannelSubscribers = createAsyncThunk(
     async (channelId) => {
         try {
             const response = await axiosInstance.get(
-                `subscription/c/${channelId}`
+                `subscription/c/${channelId}`, {accessToken: localStorage.getItem('accessToken')}
             );
             return response.data.data;
         } catch (error) { 
@@ -43,8 +43,8 @@ export const getSubscribedChannels = createAsyncThunk(
     "getSubscribedChannels",
     async (subscriberId) => {
         try {
-            const response = await axiosInstance.get(
-                `subscription/u/${subscriberId}`
+            const response = await axiosInstance.post(
+                `subscription/u/${subscriberId}`,{accessToken: localStorage.getItem('accessToken')}
             );
             return response.data.data[0].subscribedChannels;
         } catch (error) {

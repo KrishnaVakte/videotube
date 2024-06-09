@@ -59,7 +59,7 @@ export const sendOtp = createAsyncThunk("sendOtp", async (email) => {
 
 export const userLogout = createAsyncThunk("logout", async () => {
     try {
-        const response = await axiosInstance.post("/user/logout");
+        const response = await axiosInstance.post("/user/logout",{accessToken: localStorage.getItem('accessToken')});
         toast.success(response.data?.message);
         return response.data;
     } catch (error) {
@@ -74,7 +74,7 @@ export const refreshAccessToken = createAsyncThunk(
         try {
             const response = await axiosInstance.post(
                 "/user/refresh-token",
-                data
+                {...data,accessToken: localStorage.getItem('refreshToken')}
             );
             return response.data;
         } catch (error) {
@@ -90,7 +90,7 @@ export const changePassword = createAsyncThunk(
         try {
             const response = await axiosInstance.post(
                 "/user/change-password",
-                {...data, refreshToken: localStorage.getItem('refreshToken')}
+                {...data, refreshToken: localStorage.getItem('accessToken')}
             );
             toast.success(response.data?.message);
             return response.data;
@@ -110,7 +110,7 @@ export const updateAvatar = createAsyncThunk("updateAvatar", async (avatar) => {
     try {
         const response = await axiosInstance.patch(
             "/user/avatar",
-            avatar
+            {avatar,accessToken: localStorage.getItem('accessToken')}
         );
         toast.success("Updated details successfully!!!");
         return response.data.data;
@@ -126,7 +126,7 @@ export const updateCoverImg = createAsyncThunk(
         try {
             const response = await axiosInstance.patch(
                 "/user/cover-image",
-                coverImage
+                {coverImage,accessToken: localStorage.getItem('accessToken')}
             );
             toast.success(response.data?.message);
             return response.data.data;
@@ -143,7 +143,7 @@ export const updateUserDetails = createAsyncThunk(
         try {
             const response = await axiosInstance.patch(
                 "/user/update-account",
-                data
+                {...data,accessToken: localStorage.getItem('accessToken')}
             );
             toast.success("Updated details successfully!!!");
             return response.data;

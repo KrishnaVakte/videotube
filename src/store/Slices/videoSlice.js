@@ -40,7 +40,8 @@ export const publishAvideo = createAsyncThunk("publishAvideo", async (data) => {
     formData.append("description", data.description);
     formData.append("videoFile", data.videoFile[0]);
     formData.append("thumbnail", data.thumbnail[0]);
-
+    formData.append('accessToken', localStorage.getItem('accessToken'))
+    
     try {
         const response = await axiosInstance.post("/video/upload", formData);
         toast.success(response?.data?.message);
@@ -62,7 +63,7 @@ export const updateAVideo = createAsyncThunk(
         try {
             const response = await axiosInstance.patch(
                 `/video/${videoId}`,
-                formData
+                {formData,accessToken: localStorage.getItem('accessToken')}
             );
             toast.success(response?.data?.message);
             return response.data.data;
@@ -77,7 +78,7 @@ export const deleteAVideo = createAsyncThunk(
     "deleteAVideo",
     async (videoId) => {
         try {
-            const response = await axiosInstance.delete(`/video/${videoId}`);
+            const response = await axiosInstance.delete(`/video/${videoId}`,{accessToken: localStorage.getItem('accessToken')});
             toast.success(response?.data?.message);
             return response.data.data;
         } catch (error) {
@@ -91,7 +92,7 @@ export const getVideoById = createAsyncThunk(
     "getVideoById",
     async ({ videoId }) => {
         try {
-            const response = await axiosInstance.get(`/video/${videoId}`);
+            const response = await axiosInstance.post(`/video/${videoId}`,{accessToken: localStorage.getItem('accessToken')});
             return response.data.data;
         } catch (error) {
             toast.error("Some Error Occured , try again..");
@@ -105,7 +106,7 @@ export const togglePublishStatus = createAsyncThunk(
     async (videoId) => {
         try {
             const response = await axiosInstance.patch(
-                `/video/status/${videoId}`
+                `/video/status/${videoId}`, {accessToken: localStorage.getItem('accessToken')}
             );
             toast.success(response.data.message);
             return response.data.data.isPublished;
