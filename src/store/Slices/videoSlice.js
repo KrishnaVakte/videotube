@@ -24,7 +24,7 @@ export const getAllVideos = createAsyncThunk(
         if(sortBy) url+=`&sortBy=${sortBy}`
         if (sortType) url += `&sortType=${sortType}`
 
-            const response = await axiosInstance.get(url);
+        const response = await axiosInstance.get(url);
 
             return response.data.data;
         } catch (error) {
@@ -43,7 +43,11 @@ export const publishAvideo = createAsyncThunk("publishAvideo", async (data) => {
     formData.append('accessToken', localStorage.getItem('accessToken'))
     
     try {
-        const response = await axiosInstance.post("/video/upload", formData, { headers: { 'Content-Type': 'multipart/form-data' } } );
+        const response = await axiosInstance.post("/video/upload",formData, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+            }
+        } );
         toast.success(response?.data?.message);
         return response.data.data;
     } catch (error) {
@@ -63,7 +67,12 @@ export const updateAVideo = createAsyncThunk(
         try {
             const response = await axiosInstance.patch(
                 `/video/${videoId}`,
-                {formData,accessToken: localStorage.getItem('accessToken')}
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                    }
+                }
             );
             toast.success(response?.data?.message);
             return response.data.data;
@@ -78,7 +87,11 @@ export const deleteAVideo = createAsyncThunk(
     "deleteAVideo",
     async (videoId) => {
         try {
-            const response = await axiosInstance.delete(`/video/${videoId}`,{accessToken: localStorage.getItem('accessToken')});
+            const response = await axiosInstance.delete(`/video/${videoId}`,{
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                }
+            });
             toast.success(response?.data?.message);
             return response.data.data;
         } catch (error) {
@@ -92,7 +105,11 @@ export const getVideoById = createAsyncThunk(
     "getVideoById",
     async ({ videoId }) => {
         try {
-            const response = await axiosInstance.post(`/video/${videoId}`,{accessToken: localStorage.getItem('accessToken')});
+            const response = await axiosInstance.post(`/video/${videoId}`,null,{
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                }
+            });
             return response.data.data;
         } catch (error) {
             toast.error("Some Error Occured , try again..");
@@ -106,7 +123,11 @@ export const togglePublishStatus = createAsyncThunk(
     async (videoId) => {
         try {
             const response = await axiosInstance.patch(
-                `/video/status/${videoId}`, {accessToken: localStorage.getItem('accessToken')}
+                `/video/status/${videoId}`,null, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                    }
+                }
             );
             toast.success(response.data.message);
             return response.data.data.isPublished;

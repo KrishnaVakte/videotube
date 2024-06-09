@@ -20,10 +20,14 @@ export const userChannelProfile = createAsyncThunk(
         }
     }
 );
- 
+
 export const getWatchHistory = createAsyncThunk("getWatchHistory", async () => {
     try {
-        const response = await axiosInstance.post("/user/history",{accessToken: localStorage.getItem('accessToken')});
+        const response = await axiosInstance.post("/user/history",null, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        });
         return response.data.data;
     } catch (error) {
         console.log(error);

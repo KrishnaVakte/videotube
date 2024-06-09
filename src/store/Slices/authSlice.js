@@ -59,7 +59,11 @@ export const sendOtp = createAsyncThunk("sendOtp", async (email) => {
 
 export const userLogout = createAsyncThunk("logout", async () => {
     try {
-        const response = await axiosInstance.post("/user/logout",{accessToken: localStorage.getItem('accessToken')});
+        const response = await axiosInstance.post("/user/logout", null,{
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+            }
+        });
         toast.success(response.data?.message);
         return response.data;
     } catch (error) {
@@ -74,7 +78,12 @@ export const refreshAccessToken = createAsyncThunk(
         try {
             const response = await axiosInstance.post(
                 "/user/refresh-token",
-                {...data,accessToken: localStorage.getItem('refreshToken')}
+                data,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('refreshToken')}` 
+                    }
+                }
             );
             return response.data;
         } catch (error) {
@@ -90,7 +99,12 @@ export const changePassword = createAsyncThunk(
         try {
             const response = await axiosInstance.post(
                 "/user/change-password",
-                {...data, refreshToken: localStorage.getItem('accessToken')}
+                data,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                    }
+                }
             );
             toast.success(response.data?.message);
             return response.data;
@@ -102,7 +116,11 @@ export const changePassword = createAsyncThunk(
 );
 
 export const getCurrentUser = createAsyncThunk("getCurrentUser", async () => {
-    const response = await axiosInstance.post("/user/current-user",{accessToken: localStorage.getItem('accessToken')});
+    const response = await axiosInstance.post("/user/current-user",null,{
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+        }
+    });
     return response.data.data;
 });
 
@@ -110,7 +128,12 @@ export const updateAvatar = createAsyncThunk("updateAvatar", async (avatar) => {
     try {
         const response = await axiosInstance.patch(
             "/user/avatar",
-            {avatar,accessToken: localStorage.getItem('accessToken')}
+            avatar,
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                }
+            }
         );
         toast.success("Updated details successfully!!!");
         return response.data.data;
@@ -124,9 +147,16 @@ export const updateCoverImg = createAsyncThunk(
     "updateCoverImg",
     async (coverImage) => {
         try {
-            const response = await axiosInstance.patch(
+            const formData = new FormData();
+            formData.append('coverImage', coverImage);
+            const response = await axiosInstance.post(
                 "/user/cover-image",
-                {coverImage,accessToken: localStorage.getItem('accessToken')}
+                coverImage,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}` // Include the accessToken in Authorization header
+                    }
+                }
             );
             toast.success(response.data?.message);
             return response.data.data;
@@ -143,7 +173,12 @@ export const updateUserDetails = createAsyncThunk(
         try {
             const response = await axiosInstance.patch(
                 "/user/update-account",
-                {...data,accessToken: localStorage.getItem('accessToken')}
+                data,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                    }
+                }
             );
             toast.success("Updated details successfully!!!");
             return response.data;

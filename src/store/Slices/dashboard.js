@@ -12,7 +12,11 @@ export const getChannelStats = createAsyncThunk(
     "getChannelStats",
     async () => {
         try {
-            const response = await axiosInstance.post('/dashboard/stats',{accessToken: localStorage.getItem('accessToken')});
+            const response = await axiosInstance.post('/dashboard/stats',null,{
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                }
+            });
             return response.data.data;
         } catch (error) {
             toast.error("Some Error Occured , try again..");
@@ -25,7 +29,11 @@ export const getChannelVideos = createAsyncThunk(
     "getChannelVideos",
     async () => {
         try {
-            const response = await axiosInstance.post('/dashboard/videos',{accessToken: localStorage.getItem('accessToken')});
+            const response = await axiosInstance.post('/dashboard/videos',null,{
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                }
+            });
             return response.data.data;
         } catch (error) {
             toast.error("Some Error Occured , try again..");

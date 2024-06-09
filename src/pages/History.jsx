@@ -35,7 +35,7 @@ function History() {
                                 thumbnail={video.thumbnail}
                                 createdAt={video.createdAt}
                                 views={video.views}
-                                channelName={video.owner.username}
+                                channelName={video.owner?.username}
                                 videoId={video._id}
                             />
                         ))}
