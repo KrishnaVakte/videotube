@@ -43,7 +43,7 @@ export const publishAvideo = createAsyncThunk("publishAvideo", async (data) => {
     formData.append('accessToken', localStorage.getItem('accessToken'))
     
     try {
-        const response = await axiosInstance.post("/video/upload", formData);
+        const response = await axiosInstance.post("/video/upload", formData, { headers: { 'Content-Type': 'multipart/form-data' } } );
         toast.success(response?.data?.message);
         return response.data.data;
     } catch (error) {
