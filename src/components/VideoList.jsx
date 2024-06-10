@@ -25,10 +25,10 @@ function VideoList({
                 className="w-full sm:p-2 cursor-pointer"
                 onClick={() => navigate(`/watch/${videoId}`)}
             >
-                <div className="relative sm:h-60 h-48">
+                <div className="relative aspect-video">
                     <img
                         src={thumbnail}
-                        className="object-cover w-full h-full"
+                        className="object-contain w-full h-full aspect-video"
                     />
                     <span className="absolute bottom-2 right-2 rounded-lg text-sm bg-black py-1 px-2">
                         {formatDuration(duration)}

@@ -14,7 +14,7 @@ export const toggleSubscription = createAsyncThunk(
     async (channelId) => {
         try {
             const response = await axiosInstance.patch(
-                `subscription/c/${channelId}`,null,{
+                `subscription/c/${channelId}`,null, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
                     }
@@ -32,8 +32,8 @@ export const getUserChannelSubscribers = createAsyncThunk(
     "getUserChannelSubscribers",
     async (channelId) => {
         try {
-            const response = await axiosInstance.get(
-                `subscription/c/${channelId}`,{
+            const response = await axiosInstance.post(
+                `subscription/c/${channelId}`,null,{
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
                     }

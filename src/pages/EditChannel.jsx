@@ -2,17 +2,21 @@ import React from "react";
 import { ChannelHeader, ChannelNavigate, Spinner } from "../components";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { userChannelProfile } from "../store/Slices/userSlice";
 
 function EditChannel() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const channel = useSelector((state) => state.user?.profileData);
     const {username} = useSelector((state) => state.auth?.userData);
     const loading = useSelector((state) => state.auth?.loading);
 
     useEffect(() => {
         dispatch(userChannelProfile(username));
+        if (username) {
+            navigate('/edit/personalInfo')
+        }
     }, [dispatch, username]);
     window.scrollTo(0, 0);
     return (

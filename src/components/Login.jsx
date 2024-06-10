@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Logo, Button, Input } from "./index";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ function Login() {
     } = useForm();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const user = useSelector((state)=>state.auth?.userData)
     const loading = useSelector((state) => state.auth?.loading);
 
     const submit = async (data) => {
@@ -24,11 +25,17 @@ function Login() {
             : data;
 
         const response = await dispatch(userLogin(loginData));
-        const user = await dispatch(getCurrentUser());
+        await dispatch(getCurrentUser());
         if (user && response?.payload) {
             navigate("/");
         }
     };
+
+    useEffect(() => {
+        if (user && user._id) {
+            navigate('/')
+        }
+    },[user])
 
     if (loading) {
         return <LoginSkeleton />;

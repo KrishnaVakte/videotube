@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
-import { BASE_URL } from "../../constants";
+
 
 const initialState = {
     loading: false,
@@ -14,8 +14,7 @@ export const createAComment = createAsyncThunk(
     "createAComment",
     async ({ videoId, content }) => {
         try {
-            console.log({ videoId, content });
-            const response = await axiosInstance.post(`/comment/v/${videoId}`,content,{
+            const response = await axiosInstance.post(`/comment/v/${videoId}`,{content},{
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
                 }
@@ -112,12 +111,13 @@ const commentSlice = createSlice({
             state.totalComments = state.comments.length;
         });
         builder.addCase(createAComment.fulfilled, (state, action) => {
-            state.comments.unshift(action.payload);
-            state.totalComments++;
+            // state.comments.unshift(action.payload);
+            // state.totalComments++;
+            // console.log(state.comments)
         });
         builder.addCase(deleteAComment.fulfilled, (state, action) => {
             state.comments = state.comments.filter(
-                (comment) => comment._id !== action.payload.commentId
+                (comment) => comment._id !== action.payload._id
             );
             state.totalComments--;
         });

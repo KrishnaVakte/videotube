@@ -3,18 +3,20 @@ import Button from "./Button";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { createTweet } from "../store/Slices/tweetSlice";
-import { createAComment } from "../store/Slices/commentSlice";
+import { cleanUpComments, createAComment, getVideoComments } from "../store/Slices/commentSlice";
 
 function TweetAndComment({ tweet, comment, videoId }) {
     const { register, handleSubmit, setValue } = useForm();
     const dispatch = useDispatch();
 
-    const sendContent = (data) => {
+    const sendContent = async(data) => {
         if (data) {
             if (tweet) {
                 dispatch(createTweet(data));
             } else if (comment) {
-                dispatch(createAComment({ content: data.content, videoId }));
+                await dispatch( createAComment({ content: data.content, videoId }));
+                dispatch(cleanUpComments());
+                dispatch(getVideoComments({ videoId }));
             }
             setValue("content", "");
         }

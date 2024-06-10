@@ -79,5 +79,5 @@ export {
     AuthLayout,
     InfiniteScroll,
     SearchForSmallScreen,
-    IconBtn
+    IconBtn,
 };
