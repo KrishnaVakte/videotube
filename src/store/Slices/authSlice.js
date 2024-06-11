@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
-import Cookies from 'js-cookie'
 
 const initialState = {
     loading: false,
     status: false,
     userData: null,
-    signupData: null
+    signupData: null,
+    notifications: [],
+    notificationsLoading: false
 };
 
 export const createAccount = createAsyncThunk("register", async (data) => {
@@ -48,7 +49,7 @@ export const userLogin = createAsyncThunk("login", async (data) => {
 
 export const sendOtp = createAsyncThunk("sendOtp", async (email) => {
     try {
-        const response = await axiosInstance.post("/user/sendotp", {email});
+        const response = await axiosInstance.post("/user/sendotp", { email });
         toast.success("OTP Sent Successfully")
         return response.data;
     } catch (error) {
@@ -59,11 +60,13 @@ export const sendOtp = createAsyncThunk("sendOtp", async (email) => {
 
 export const userLogout = createAsyncThunk("logout", async () => {
     try {
-        const response = await axiosInstance.post("/user/logout", null,{
+        const response = await axiosInstance.post("/user/logout", null, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
             }
         });
+        localStorage.removeItem('accessToken', response.data.data.accessToken);
+        localStorage.removeItem('refreshToken', response.data.data.refreshToken);
         toast.success(response.data?.message);
         return response.data;
     } catch (error) {
@@ -81,7 +84,7 @@ export const refreshAccessToken = createAsyncThunk(
                 data,
                 {
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('refreshToken')}` 
+                        'Authorization': `Bearer ${localStorage.getItem('refreshToken')}`
                     }
                 }
             );
@@ -102,7 +105,7 @@ export const changePassword = createAsyncThunk(
                 data,
                 {
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
                     }
                 }
             );
@@ -116,9 +119,9 @@ export const changePassword = createAsyncThunk(
 );
 
 export const getCurrentUser = createAsyncThunk("getCurrentUser", async () => {
-    const response = await axiosInstance.post("/user/current-user",null,{
+    const response = await axiosInstance.post("/user/current-user", null, {
         headers: {
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
         }
     });
     return response.data.data;
@@ -131,7 +134,7 @@ export const updateAvatar = createAsyncThunk("updateAvatar", async (avatar) => {
             avatar,
             {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
                 }
             }
         );
@@ -176,7 +179,7 @@ export const updateUserDetails = createAsyncThunk(
                 data,
                 {
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}` 
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
                     }
                 }
             );
@@ -188,6 +191,33 @@ export const updateUserDetails = createAsyncThunk(
         }
     }
 );
+
+export const getUserNotifications = createAsyncThunk("getUserNotifications", async () => {
+    try {
+        const response = await axiosInstance.get('/user/notifications', {
+            headers: {
+                'Authorization': localStorage.getItem('accessToken')
+            }
+        });
+        return response.data?.data;
+
+    } catch (error) {
+        console.log("ERROR! fetching the notifications.")
+    }
+})
+
+export const deleteNotification = createAsyncThunk("deleteNotification", async (notificationId) => {
+    try {
+        const response = await axiosInstance.delete(`/user/notification/${notificationId}`, {
+            headers: {
+                'Authorization': localStorage.getItem('accessToken')
+            }
+        })
+        return response.data.data;
+    } catch (error) {
+        console.log("ERROR! notification not deleted.")
+    }
+})
 
 const authSlice = createSlice({
     name: "auth",
@@ -275,6 +305,20 @@ const authSlice = createSlice({
             state.loading = false;
             state.userData = action.payload;
         });
+        builder.addCase(getUserNotifications.pending, (state) => {
+            state.notificationsLoading = true;
+        })
+        builder.addCase(getUserNotifications.fulfilled, (state, action) => {
+            state.notificationsLoading = false;
+            state.notifications = action.payload;
+        })
+        builder.addCase(getUserNotifications.rejected, (state) => {
+            state.notificationsLoading = false;
+        })
+
+        builder.addCase(deleteNotification.fulfilled, (state, action) => {
+            state.notifications = state.notifications.filter((notification) => (notification._id !== action.payload._id));
+        })
     },
 });
 

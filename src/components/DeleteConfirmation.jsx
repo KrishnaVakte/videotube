@@ -43,7 +43,7 @@ function DeleteConfirmation({ onCancel, onDelete, comment, tweet, video }) {
                             </button>
                             <button
                                 onClick={onDelete}
-                                className="bg-red-500 py-1 px-3 rounded-lg sm:text-lg text-sm hover:opacity-70 cursor-pointer"
+                                className="bg-red1 py-1 px-3 rounded-lg sm:text-lg text-sm hover:opacity-70 cursor-pointer"
                             >
                                 Delete
                             </button>

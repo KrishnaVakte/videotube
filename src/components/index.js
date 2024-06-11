@@ -38,6 +38,7 @@ import AuthLayout from "./AuthLayout";
 import InfiniteScroll from "./InfiniteScroll"
 import SearchForSmallScreen from "./SearchForSmallScreen";
 import IconBtn from "./IconBtn";
+import Notifications from "./Notifications";
 
 export {
     Button,
@@ -80,4 +81,5 @@ export {
     InfiniteScroll,
     SearchForSmallScreen,
     IconBtn,
+    Notifications
 };

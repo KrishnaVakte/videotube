@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Search, Button, Logo, SearchForSmallScreen } from "../index.js";
+import React, { useEffect, useState } from "react";
+import { Search, Button, Logo, SearchForSmallScreen, Notifications } from "../index.js";
 import { Link } from "react-router-dom";
 import {
     IoCloseCircleOutline,
@@ -11,9 +11,10 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoMdLogOut } from "react-icons/io";
-import { userLogout } from "../../store/Slices/authSlice.js";
+import { getUserNotifications, userLogout } from "../../store/Slices/authSlice.js";
 
 function Navbar() {
+   
     const [toggleMenu, setToggleMenu] = useState(false);
     const [openSearch, setOpenSearch] = useState(false);
     const authStatus = useSelector((state) => state.auth.status);
@@ -22,15 +23,23 @@ function Navbar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    
+
     const logout = async () => {
         await dispatch(userLogout());
         navigate("/");
     };
 
+
     const handleAvatarClick = (e) => {
         e.stopPropagation();
         navigate(`/channel/${username}`);
     };
+
+
+    useEffect(() => {
+        dispatch(getUserNotifications());
+    },[])
 
     const sidePanelItems = [
         {
@@ -72,15 +81,21 @@ function Navbar() {
                     )}
                 </div>
 
+
+
                 {/* login and signup butons for larger screens */}
                 {authStatus ? (
-                    <div className="rounded-full sm:block hidden cursor-pointer">
-                        <img
-                            src={profileImg}
-                            alt="profileImg"
-                            onClick={handleAvatarClick}
-                            className="rounded-full w-10 h-10 object-cover"
-                        />
+                    <div className="flex items-center gap-4 relative">
+                        {/* Notification icon */}
+                        <Notifications />
+                        <div className="rounded-full sm:block hidden cursor-pointer">
+                            <img
+                                src={profileImg}
+                                alt="profileImg"
+                                onClick={handleAvatarClick}
+                                className="rounded-full w-10 h-10 object-cover"
+                            />
+                        </div>
                     </div>
                 ) : (
                     <div className="space-x-2 sm:block hidden">

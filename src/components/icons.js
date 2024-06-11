@@ -18,7 +18,8 @@ import { GrEdit } from "react-icons/gr";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 import { FaRegEye, FaRegHeart } from "react-icons/fa";
-import { MdOutlineCloudUpload } from "react-icons/md";
+import { MdOutlineCloudUpload} from "react-icons/md";
+import { IoMdNotificationsOutline} from "react-icons/io";
 
 export {
     IoCloseCircleOutline,
@@ -42,5 +43,8 @@ export {
     RxAvatar,
     FaRegEye,
     FaRegHeart,
-    MdOutlineCloudUpload
+    MdOutlineCloudUpload,
+    IoMdNotificationsOutline
+
+
 }

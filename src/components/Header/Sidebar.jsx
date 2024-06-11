@@ -2,7 +2,6 @@ import React from "react";
 import {
     BiHistory,
     BiLike,
-    CiSettings,
     HiOutlineVideoCamera,
     IoFolderOutline,
     RiHome6Line,

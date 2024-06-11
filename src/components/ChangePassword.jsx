@@ -44,7 +44,7 @@ function ChangePassword() {
                             })}
                         />
                         {errors.oldPassword && (
-                            <span className="text-sm text-red-500">
+                            <span className="text-sm text-red1">
                                 {errors.oldPassword.message}
                             </span>
                         )}
@@ -64,7 +64,7 @@ function ChangePassword() {
                             })}
                         />
                         {errors.newPassword && (
-                            <span className="text-sm text-red-500">
+                            <span className="text-sm text-red1">
                                 {errors.newPassword.message}
                             </span>
                         )}
@@ -84,7 +84,7 @@ function ChangePassword() {
                             })}
                         />
                         {errors.confirmPassword && (
-                            <span className="text-sm text-red-500">
+                            <span className="text-sm text-red1">
                                 {errors.confirmPassword.message}
                             </span>
                         )}

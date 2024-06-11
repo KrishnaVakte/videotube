@@ -53,7 +53,7 @@ function EditPersonalInfo() {
                                 })}
                             />
                             {errors.fullName && (
-                                <span className="text-sm text-red-500">
+                                <span className="text-sm text-red1">
                                     {errors.fullName?.message}
                                 </span>
                             )}
@@ -68,7 +68,7 @@ function EditPersonalInfo() {
                                 })}
                             />
                             {errors.email && (
-                                <span className="text-sm text-red-500">
+                                <span className="text-sm text-red1">
                                     {errors.email?.message}
                                 </span>
                             )}

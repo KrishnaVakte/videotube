@@ -14,6 +14,7 @@ function SignUp() {
         register,
         control,
         formState: { errors },
+        clearErrors
     } = useForm();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -55,7 +56,7 @@ function SignUp() {
                                     className="w-full h-28 object-cover border-none border-slate-900"
                                     cameraIcon
                                 />
-                                <div className="text-sm absolute right-2 bottom-2 hover:text-purple-500 cursor-default">
+                                <div className="text-sm absolute right-2 bottom-2 hover:text-purple cursor-default">
                                     cover Image
                                 </div>
                             </div>
@@ -66,44 +67,19 @@ function SignUp() {
                                     className="object-cover rounded-full h-20 w-20 outline-none"
                                     cameraIcon={true}
                                     cameraSize={20}
+                                    onChange={()=>{clearErrors('avatar')}}
                                 />
                             </div>
-
-                            {/* <label
-                                htmlFor="avatar"
-                                className="cursor-pointer"
-                            >
-                                <div className="absolute h-24 w-24 left-2 bottom-2 flex justify-center items-center">
-                                    <img
-                                        src={avatarPreview}
-                                        className=" object-cover w-full h-full border-2 border-double rounded-full"
-                                    />
-                                    <FaCamera
-                                        className="absolute hover:text-purple-500"
-                                        size={20}
-                                    />
-                                </div>
-                                <Controller
-                                    name="avatar"
-                                    control={control}
-                                    render={({ field: { onChange } }) => (
-                                        <input
-                                            id="avatar"
-                                            type="file"
-                                            className="hidden"
-                                            accept="image/png, image/jpeg"
-                                            onChange={(e) => {
-                                                onChange(handleAvatarChange(e));
-                                            }}
-                                        />
-                                    )}
-                                    rules={{ required: "avatar is required" }}
-                                />
-                            </label> */}
+                            
                         </div>
                         {errors.avatar && (
                             <div className="text-red1">
                                 {errors.avatar.message}
+                            </div>
+                        )}
+                        {errors.coverImage && (
+                            <div className="text-red1">
+                                {errors.coverImage.message}
                             </div>
                         )}
                         <Input
@@ -114,6 +90,7 @@ function SignUp() {
                                 required: "username is required",
                             })}
                             className="h-8"
+                            onChange={()=>{clearErrors('username')}}
                         />
                         {errors.username && (
                             <span className="text-red1">
@@ -128,6 +105,7 @@ function SignUp() {
                                 required: "email is required",
                             })}
                             className="h-8"
+                            onChange={()=>{clearErrors('email')}}
                         />
                         {errors.email && (
                             <span className="text-red1">
@@ -142,6 +120,7 @@ function SignUp() {
                                 required: "fullName is required",
                             })}
                             className="h-8"
+                            onChange={()=>{clearErrors('fullName')}}
                         />
                         {errors.fullName && (
                             <span className="text-red1">
@@ -156,6 +135,7 @@ function SignUp() {
                                 required: "password is required",
                             })}
                             className="h-8"
+                            onChange={()=>{clearErrors('password')}}
                         />
                         {errors.password && (
                             <span className="text-red1">

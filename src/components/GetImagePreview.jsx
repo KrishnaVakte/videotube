@@ -31,7 +31,6 @@ function GetImagePreview({
                             {label}
                         </label>
                     )}
-                    {/* <div className="relative flex justify-center items-center"> */}
                     <img
                         src={preview || image}
                         className={className}
@@ -42,7 +41,6 @@ function GetImagePreview({
                             className="hover:text-purple absolute inline-flex justify-center items-center w-full"
                         />
                     )}
-                    {/* </div> */}
                     <Controller
                         name={name}
                         control={control}
@@ -58,8 +56,9 @@ function GetImagePreview({
                                 }}
                             />
                         )}
-                        rules={{ required: `${name} is required` }}
+                        rules={!(name==='coverImage')?{required: `${name} is required` }:""}
                     />
+                    
                 </label>
             </div>
         </>
