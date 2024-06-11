@@ -12,7 +12,11 @@ export const userChannelProfile = createAsyncThunk(
     "getUserChannelProfile",
     async (username) => {
         try {
-            const response = await axiosInstance.get(`/user/c/${username}`);
+            const response = await axiosInstance.get(`/user/c/${username}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            });
             return response.data.data;
         } catch (error) {
             toast.error("Some Error Occured , try again..");
